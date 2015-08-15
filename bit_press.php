@@ -2,14 +2,18 @@
 
 /* 
  * Plugin Name: BITPress
+ * Plugin URI: https://github.com/davelively14/BITPress
+ * Description: This is a Template Tag plugin for WordPress that will connect with BandsInTown (BIT) API.
+ * Version: 0.1
+ * Author: Dave Lively
  */
 
 function get_event($band, $date, $id) {
     $band = urlencode($band);
     $raw_json = file_get_contents("http://api.bandsintown.com/events/search.json?artists[]=".$band."&date=".$date."&app_id=".$id);
     
-    echo $raw_json;
-    echo "</br></br>";
+    //echo $raw_json;
+    //echo "</br></br>";
     
     return json_decode($raw_json, true);
 }
@@ -17,11 +21,11 @@ function get_event($band, $date, $id) {
 function get_ticket_url($band, $date, $id, $alt_url = NIL) {
     $event = get_event($band, $date, $id);
     
-    echo $event[0]['ticket_status'];
-    echo '</br>';
+    //echo $event[0]['ticket_status'];
+    //echo '</br>';
     
     if ($event[0]['ticket_status'] == 'available') {
-        return '<a href="'.$event[0]['ticket_url'].'">Buy on BandsInTown</a>';
+        return '<a href="'.$event[0]['url'].'">Buy on BandsInTown</a>';
     } elseif ($alt_url == NIL) {
         return 'Sold out! Online resale unavailable';
     } else {
@@ -32,6 +36,6 @@ function get_ticket_url($band, $date, $id, $alt_url = NIL) {
 
 echo get_ticket_url("Bronze Radio Return", "2015-10-29", "LOVE_ATL", "http://www.google.com");
 echo "</br>";
-echo get_ticket_url("Eli Young Band", "2015-08-14", "LOVE_ATL")
+echo get_ticket_url("Eli Young Band", "2015-08-14", "LOVE_ATL");
 
 ?>
