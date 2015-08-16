@@ -30,3 +30,9 @@ Output:
   - <a href="http://www.bandsintown.com/event/10341860/buy_tickets?app_id=LOVE_ATL&came_from=233">Buy on BandsInTown</a>
 - If tickets are unavailable:
  - Sold out! Online resale unavailable
+
+<h2>Search Venues</h2>
+Documentation to be added
+
+<h2>Print List</h2>
+Documenation to be added
