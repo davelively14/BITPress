@@ -5,16 +5,15 @@ This is a Template Tag plugin for WordPress that will connect with BandsInTown (
 
 Insert the following on your page to generate a link to purchase tickets using your app_id where you want the href to appear:
 
-<?php get_ticket_url($band, $date, $id, $alt_url); ?>
+<?php get_ticket_url($band, $date, $alt_url); ?>
 
-- $band: Name of the band.  Examples: 'Creed' or 'Foo Fighters'.
+- $band: Name of the band in quotes (single or double).  Examples: 'Creed' or 'Foo Fighters'.
 - $date: Date of the event in YYYY-MM-DD format.  Example: '2015-08-20'
-- $id: Your app_id that you received from BIT.  Example: 'LOVE_ATL'
 - $alt_url: (Optional) In the event that tickets are unavailable, this URL will be used for the href.  Example: 'http://www.seatgeek.com/george+ezra/buy_tickets?AAz284TR'
 
 <h4>Examples:</h4>
 Input:
-- <?php get_ticket_url("Bronze Radio Return", "2015-10-29", "LOVE_ATL", "http://www.google.com"); ?>
+- <?php get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com"); ?>
 
 Output:
 - If tickets are available:
@@ -31,8 +30,36 @@ Output:
 - If tickets are unavailable:
  - Sold out! Online resale unavailable
 
+NOTE: you can change the text in the output by adjusting the default Content constants.
+
+<h2>Events by Venue</h2>
+
+Insert the following on our page to generate a list of upcoming events for a given venue:
+
+<?php events_by_venue($venue); ?>
+
+- $venue: Name of the venue in quotes (single or double).  Examples: 'Tabernacle', 'Center Stage'
+
+<h4>Examples</h4>
+Input:
+- <?php events_by_venue("Tabernacle"); ?>
+
+Output:
+Artist                          Date                    Tickets
+Rey Pila                        08/17/2015 at 8:00PM	Buy on BandsInTown
+Rodrigo y Gabriela              09/09/2015 at 7:00PM	Buy on BandsInTown
+Three Days Grace                09/15/2015 at 8:00PM	Buy on BandsInTown
+Nick Jonas:                     09/25/2015 at 8:00PM	Buy on BandsInTown
+Charli And Jack Do America	09/29/2015 at 8:00PM	Buy on BandsInTown
+Matt Espinosa                   10/01/2015 at 6:30PM	Buy on BandsInTown
+Brandi Carlile                  10/02/2015 at 7:00PM	Buy on BandsInTown
+Disclosure                      10/05/2015 at 8:00PM	Buy on BandsInTown
+twenty one pilots               10/06/2015 at 7:00PM	Buy on BandsInTown
+Finish Ticket                   10/06/2015 at 7:00PM	Buy on BandsInTown
+
+
 <h2>Search Venues</h2>
 Documentation to be added
 
 <h2>Print List</h2>
-Documenation to be added
+Documentation to be added

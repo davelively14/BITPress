@@ -9,8 +9,8 @@
  */
 
 // CONTENT
-// Change these constants to adjust the content is displayed in the returned 
-// HTML code.
+// Change these constants to adjust the content to be displayed in the returned 
+// HTML code for given functions.
 // 
 // sets the text to be hyperlinked when buying a ticket from BandsInTown.
 define('BUY_TICKET_STR', 'Buy on BandsInTown');
@@ -37,29 +37,50 @@ define('DEFAULT_RADIUS_INT', 25);
 // Don't change these.
 //
 // sets the base URI for calls to the API to return events
-define('URI_EVENTS_STR', 'http://api.bandsintown.com/events/search.json?');
+define('URL_EVENTS_STR', 'http://api.bandsintown.com/events/');
 // sets the base URI for calls to the API to return venues
-define('URI_VENUES_STR', 'http://api.bandsintown.com/venues/search.json?');
+define('URL_VENUES_STR', 'http://api.bandsintown.com/venues/');
+// sets to search and return JSON
+define('OPT_SEARCH_STR', 'search.json?');
+// sets to return events in JSON format
+define('OPT_EVENTS_STR', 'events.json?');
 // URI call to set the ID of partner
 define('ID_QUERY_STR', '&app_id=');
 
-function get_event($band, $date, $id = DEFAULT_ID_STR) {
+function get_event($band, $date) {
     $band = urlencode($band);
-    $raw_json = file_get_contents(URI_EVENTS_STR."artists[]=".$band."&date=".$date.ID_QUERY_STR.$id);
+    $raw_json = file_get_contents(URL_EVENTS_STR.OPT_SEARCH_STR."artists[]=".$band."&date=".$date.ID_QUERY_STR.DEFAULT_ID_STR);
     return json_decode($raw_json, true);
 }
 
-function search_venues($keyword, $id = DEFAULT_ID_STR, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR, $radius = DEFAULT_RADIUS_INT) {
-    $keyword = urlencode($keyword);
-    $raw_json = file_get_contents(URI_VENUES_STR."query=".$keyword.ID_QUERY_STR.$id);
-    return json_decode($raw_json, true);
-}
-
-function get_ticket_url($band, $date, $alt_url = NULL, $id = DEFAULT_ID_STR) {
-    $event = get_event($band, $date, $id);
+function clean_datetime($datetime) {
+    $d = str_split($datetime);
+    $year = $d[0].$d[1].$d[2].$d[3];
+    $month = $d[5].$d[6];
+    $day = $d[8].$d[9];
+    $hour = $d[11].$d[12];
+    $min = $d[14].$d[15];
     
-    //echo $event[0]['ticket_status'];
-    //echo '</br>';
+    if ($hour > 12) {
+        $hour = $hour - 12;
+        $apm = 'PM';
+    } else {
+        $apm = 'AM';
+    }
+    
+    return $month.'/'.$day.'/'.$year.' at '.$hour.':'.$min.$apm;
+}
+
+function search_venues($keyword, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR, $radius = DEFAULT_RADIUS_INT) {
+    $keyword = urlencode($keyword);
+    $city = urlencode($city);
+    
+    $raw_json = file_get_contents(URL_VENUES_STR.OPT_SEARCH_STR."query=".$keyword.ID_QUERY_STR.DEFAULT_ID_STR);
+    return json_decode($raw_json, true);
+}
+
+function get_ticket_url($band, $date, $alt_url = NULL) {
+    $event = get_event($band, $date);
     
     if ($event[0]['ticket_status'] == 'available') {
         return '<a href="'.$event[0]['url'].'">'.BUY_TICKET_STR.'</a>';
@@ -80,14 +101,23 @@ function print_list($array) {
     
     $code = $code.'</tr>';
     
-    foreach ($array as $level1) {
+    foreach ($array as $outer) {
         $code = $code.'<tr>';
-        foreach ($level1 as $level2) {
+        foreach ($outer as $inner) {
             
-            if (filter_var($level2, FILTER_VALIDATE_URL)) {
-                $code = $code.'<td><a href="'.$level2.'">Link</td>';
+            if (filter_var($inner, FILTER_VALIDATE_URL)) {
+                $code = $code.'<td><a href="'.$inner.'">Link</td>';
+            } elseif(is_array($inner)) {
+                if (key($inner) == 'artists' || key($inner) == 'venue') {
+                    $code = $code.'<td><a href="'.$inner[0][url].'">'.$inner[0][name].'</a></td>';
+                } elseif (key($inner) == 'venue') {
+                    $code = $code.'<td><a href="'.$inner[url].'">'.$inner[name].'</a></td>';
+                } else {
+                    $code = $code.'<td>'.'array'.'</td>';
+                }
+                
             } else {
-                $code = $code.'<td>'.$level2.'</td>';
+                $code = $code.'<td>'.$inner.'</td>';
             }
 
         } 
@@ -98,10 +128,50 @@ function print_list($array) {
     echo $code;
 }
 
+// TODO: add date paramaters
+function events_by_venue($keyword) {
+    $venues = search_venues($keyword);
+    
+    if (sizeof($venues) > 0) {
+        $raw_json = file_get_contents(URL_VENUES_STR.$venues[0][id]."/".OPT_EVENTS_STR."app_id=".DEFAULT_ID_STR);
+        $events = json_decode($raw_json, true);
+        
+        if (sizeof($venues) > 1) {
+            foreach ($venues as $venue) {
+                $raw_json = file_get_contents(URL_VENUES_STR.$venue[id]."/".OPT_EVENTS_STR."app_id=".DEFAULT_ID_STR);
+                array_merge($events, json_decode($raw_json, true));
+            }
+
+        }
+        
+    } else {
+        return "Could not find venue";
+    }
+    
+    $code = '<table><tr><th>Artist</th><th>Date</th><th>Tickets</th></tr>';
+    foreach ($events as $event) {
+        $code = $code.'<tr><td>'.$event[artists][0][name].'</td><td>'.clean_datetime($event[datetime]).'</td><td>';
+        if ($event[ticket_status] == 'available') {
+            $code = $code.'<a href="'.$event[url].'">'.BUY_TICKET_STR.'</a></td>';
+        // TODO: build in SeatGeek functionality, create default links.
+        } else {
+            $code = $code.SOLD_OUT_NO_LINK_STR.'</td>';
+        }
+        $code = $code.'</tr>';
+    }
+    $code = $code.'</table>';
+    
+    return $code;
+    
+}
+
 //echo get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com");
 //echo "</br>";
 //echo get_ticket_url("Eli Young Band", "2015-08-14");
 //echo "</br>";
-print_list(search_venues("Center Stage"));
+//print_list(search_venues("Center Stage"));
+//$center_stage = search_venues("Center Stage");
+//print_r($center_stage);
+//echo events_by_venue("Tabernacle");
 
 ?>
