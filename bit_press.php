@@ -75,7 +75,7 @@ function search_venues($keyword, $city = DEFAULT_CITY_STR, $state = DEFAULT_STAT
     $keyword = urlencode($keyword);
     $city = urlencode($city);
     
-    $raw_json = file_get_contents(URL_VENUES_STR.OPT_SEARCH_STR."query=".$keyword.ID_QUERY_STR.DEFAULT_ID_STR);
+    $raw_json = file_get_contents(URL_VENUES_STR.OPT_SEARCH_STR."query=".$keyword.'&location='.$city.','.$state.ID_QUERY_STR.DEFAULT_ID_STR);
     return json_decode($raw_json, true);
 }
 
