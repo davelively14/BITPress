@@ -4,7 +4,7 @@
  * Plugin Name: BITPress
  * Plugin URI: https://github.com/davelively14/BITPress
  * Description: This is a Template Tag plugin for WordPress that will connect with BandsInTown (BIT) API.
- * Version: 0.1
+ * Version: 0.2
  * Author: Dave Lively
  */
 
@@ -83,11 +83,11 @@ function get_ticket_url($band, $date, $alt_url = NULL) {
     $event = get_event($band, $date);
     
     if ($event[0]['ticket_status'] == 'available') {
-        return '<a href="'.$event[0]['url'].'">'.BUY_TICKET_STR.'</a>';
+        echo '<a href="'.$event[0]['url'].'" rel="nofollow">'.BUY_TICKET_STR.'</a>';
     } elseif ($alt_url == NULL) {
-        return SOLD_OUT_NO_LINK_STR;
+        echo SOLD_OUT_NO_LINK_STR;
     } else {
-        return SOLD_OUT_STR.' <a href="'.$alt_url.'">'.SOLD_OUT_HYPER_STR.'</a>';
+        echo SOLD_OUT_STR.' <a href="'.$alt_url.'" rel="nofollow">'.SOLD_OUT_HYPER_STR.'</a>';
     }
     
 }
@@ -128,10 +128,11 @@ function print_list($array) {
     echo $code;
 }
 
-// TODO: add date paramaters
-function events_by_venue($keyword) {
+// TODO: add return max
+function events_by_venue($keyword, $max = 0) {
     $venues = search_venues($keyword);
     
+
     if (sizeof($venues) > 0) {
         $raw_json = file_get_contents(URL_VENUES_STR.$venues[0][id]."/".OPT_EVENTS_STR."app_id=".DEFAULT_ID_STR);
         $events = json_decode($raw_json, true);
@@ -145,14 +146,22 @@ function events_by_venue($keyword) {
         }
         
     } else {
-        return "Could not find venue";
+        echo "Could not find venue";
+        return;
     }
+    
+    // If $max is default zero, all events in BIT for that venue will be listed. If $max is a number, this will ensure
+    // that no more than the $max number of events are returned
+    if (sizeof($events) > $max and $max != 0) {
+        $events = array_splice($events, 0, $max);
+    }
+    
     
     $code = '<table><tr><th>Artist</th><th>Date</th><th>Tickets</th></tr>';
     foreach ($events as $event) {
         $code = $code.'<tr><td>'.$event[artists][0][name].'</td><td>'.clean_datetime($event[datetime]).'</td><td>';
         if ($event[ticket_status] == 'available') {
-            $code = $code.'<a href="'.$event[url].'">'.BUY_TICKET_STR.'</a></td>';
+            $code = $code.'<a href="'.$event[url].'" rel="nofollow">'.BUY_TICKET_STR.'</a></td>';
         // TODO: build in SeatGeek functionality, create default links.
         } else {
             $code = $code.SOLD_OUT_NO_LINK_STR.'</td>';
@@ -161,17 +170,14 @@ function events_by_venue($keyword) {
     }
     $code = $code.'</table>';
     
-    return $code;
+    echo $code;
     
 }
 
-//echo get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com");
+//get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com");
 //echo "</br>";
 //echo get_ticket_url("Eli Young Band", "2015-08-14");
 //echo "</br>";
-//print_list(search_venues("Center Stage"));
-//$center_stage = search_venues("Center Stage");
-//print_r($center_stage);
-//echo events_by_venue("Tabernacle");
+//events_by_venue("Tabernacle", 5);
 
 ?>

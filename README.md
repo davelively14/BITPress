@@ -36,13 +36,18 @@ NOTE: you can change the text in the output by adjusting the default Content con
 
 Insert the following on our page to generate a list of upcoming events for a given venue:
 
-<?php events_by_venue($venue); ?>
+<?php events_by_venue($venue, $max); ?>
 
-- $venue: Name of the venue in quotes (single or double).  Examples: 'Tabernacle', 'Center Stage'
+or
+
+[insert_php]events_by_venue($venue, $max);[/insert_php]
+
+- $venue: string.  Name of the venue in quotes (single or double).  Examples: 'Tabernacle', 'Center Stage'
+- $max: integer. Max number of results to return. Note that results are sorted by date, so limiting to 10 will show the ten most recent.
 
 <h4>Examples</h4>
 Input:
-- <?php events_by_venue("Tabernacle"); ?>
+- <?php events_by_venue("Tabernacle", 5); ?>
 
 Output:
 Artist                          Date                    Tickets
@@ -51,11 +56,6 @@ Rodrigo y Gabriela              09/09/2015 at 7:00PM	Buy on BandsInTown
 Three Days Grace                09/15/2015 at 8:00PM	Buy on BandsInTown
 Nick Jonas:                     09/25/2015 at 8:00PM	Buy on BandsInTown
 Charli And Jack Do America	09/29/2015 at 8:00PM	Buy on BandsInTown
-Matt Espinosa                   10/01/2015 at 6:30PM	Buy on BandsInTown
-Brandi Carlile                  10/02/2015 at 7:00PM	Buy on BandsInTown
-Disclosure                      10/05/2015 at 8:00PM	Buy on BandsInTown
-twenty one pilots               10/06/2015 at 7:00PM	Buy on BandsInTown
-Finish Ticket                   10/06/2015 at 7:00PM	Buy on BandsInTown
 
 
 <h2>Search Venues</h2>
