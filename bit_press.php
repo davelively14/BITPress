@@ -3,8 +3,8 @@
 /* 
  * Plugin Name: BITPress
  * Plugin URI: https://github.com/davelively14/BITPress
- * Description: This is a Template Tag plugin for WordPress that will connect with BandsInTown (BIT) API.
- * Version: 0.2
+ * Description: This is a template tag plugin for WordPress that will connect with BandsInTown (BIT) API.
+ * Version: 0.3
  * Author: Dave Lively
  */
 
@@ -79,17 +79,43 @@ function search_venues($keyword, $city = DEFAULT_CITY_STR, $state = DEFAULT_STAT
     return json_decode($raw_json, true);
 }
 
-function get_ticket_url($band, $date, $alt_url = NULL) {
+function get_ticket_url($band, $date, $txt = BUY_TICKET_STR, $alt_url = NULL) {
     $event = get_event($band, $date);
-    
-    if ($event[0]['ticket_status'] == 'available') {
-        echo '<a href="'.$event[0]['url'].'" rel="nofollow">'.BUY_TICKET_STR.'</a>';
+    echo '<a href="'.$event[0][url].'" rel="nofollow">'.$txt.'</a>';
+    // Temporarily disabled availability check
+    /*if ($event[0]['ticket_status'] == 'available') {
+        echo '<a href="'.$event[0][url].'" rel="nofollow">'.$txt.'</a>';
     } elseif ($alt_url == NULL) {
         echo SOLD_OUT_NO_LINK_STR;
     } else {
         echo SOLD_OUT_STR.' <a href="'.$alt_url.'" rel="nofollow">'.SOLD_OUT_HYPER_STR.'</a>';
-    }
+    }*/
     
+}
+
+function get_ticket_list($band, $date, $txt = BUY_TICKET_STR, $alt_url = NULL) {
+    $event = get_event($band, $date);
+    
+    if (sizeof($event) > 0) {
+        $code = '<table><tr><th>Venue</th><th>Date</th><th>Tickets</th></tr><tr><td>'.$event[0][venue][name].'</td><td>'.clean_datetime($event[0][datetime]).'</td><td>';
+        $code = $code.'<a href="'.$event[0][url].'" rel="nofollow">'.$txt.'</a>';
+        
+        // Availability check temporarily disabled
+        /*if ($event[0]['ticket_status'] == 'available') {
+            $code = $code.'<a href="'.$event[0][url].'" rel="nofollow">'.BUY_TICKET_STR.'</a>';
+        } elseif ($alt_url == NULL) {
+            $code = $code.SOLD_OUT_NO_LINK_STR;
+        } else {
+            $code = $code.SOLD_OUT_STR.' <a href="'.$alt_url.'" rel="nofollow">'.SOLD_OUT_HYPER_STR.'</a>';
+        }*/
+        
+        $code = $code.'</td></table>';
+        
+        echo $code;
+    } else {
+        echo "No event found";
+    }
+   
 }
 
 function print_list($array) {
@@ -128,10 +154,35 @@ function print_list($array) {
     echo $code;
 }
 
-// TODO: add return max
-function events_by_venue($keyword, $max = 0) {
-    $venues = search_venues($keyword);
+// Returns standard list of events
+function list_events_code($events, $txt, $venues = false) {
+    $code = '<table><tr><th>Artist</th><th>Date</th>';
+    if ($venues) {
+        $code = $code.'<th>Venue</th>';
+    }
+    $code = $code.'<th>Tickets</th></tr>';
+    foreach ($events as $event) {
+        $code = $code.'<tr><td>'.$event[artists][0][name].'</td><td>'.clean_datetime($event[datetime]).'</td>';
+        if ($venues) {
+            $code = $code.'<td>'.$event[venue][name].' ('.$event[venue][city].')</td>';
+        }
+        $code = $code.'<td>';
+        $code = $code.'<a href="'.$event[url].'" rel="nofollow">'.$txt.'</a></td>';
+        /*if ($event[ticket_status] == 'available') {
+            $code = $code.'<a href="'.$event[url].'" rel="nofollow">'.$txt.'</a></td>';
+        // TODO: build in SeatGeek functionality, create default links.
+        } else {
+            $code = $code.SOLD_OUT_NO_LINK_STR.'</td>';
+        }*/
+        $code = $code.'</tr>';
+    }
+    $code = $code.'</table>';
     
+    return $code;
+}
+
+function events_by_venue($keyword, $max = 0, $txt = BUY_TICKET_STR) {
+    $venues = search_venues($keyword);
 
     if (sizeof($venues) > 0) {
         $raw_json = file_get_contents(URL_VENUES_STR.$venues[0][id]."/".OPT_EVENTS_STR."app_id=".DEFAULT_ID_STR);
@@ -142,7 +193,6 @@ function events_by_venue($keyword, $max = 0) {
                 $raw_json = file_get_contents(URL_VENUES_STR.$venue[id]."/".OPT_EVENTS_STR."app_id=".DEFAULT_ID_STR);
                 array_merge($events, json_decode($raw_json, true));
             }
-
         }
         
     } else {
@@ -157,27 +207,35 @@ function events_by_venue($keyword, $max = 0) {
     }
     
     
-    $code = '<table><tr><th>Artist</th><th>Date</th><th>Tickets</th></tr>';
-    foreach ($events as $event) {
-        $code = $code.'<tr><td>'.$event[artists][0][name].'</td><td>'.clean_datetime($event[datetime]).'</td><td>';
-        if ($event[ticket_status] == 'available') {
-            $code = $code.'<a href="'.$event[url].'" rel="nofollow">'.BUY_TICKET_STR.'</a></td>';
-        // TODO: build in SeatGeek functionality, create default links.
-        } else {
-            $code = $code.SOLD_OUT_NO_LINK_STR.'</td>';
-        }
-        $code = $code.'</tr>';
-    }
-    $code = $code.'</table>';
-    
-    echo $code;
+    echo list_events_code($events, $txt);
     
 }
 
-//get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com");
-//echo "</br>";
-//echo get_ticket_url("Eli Young Band", "2015-08-14");
-//echo "</br>";
-//events_by_venue("Tabernacle", 5);
+function events_by_artist($artists, $txt = BUY_TICKET_STR, $radius = DEFAULT_RADIUS_INT, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR) {
+    $artists = explode(',', $artists);
 
+    $fetch_url = URL_EVENTS_STR.OPT_SEARCH_STR;
+    
+    foreach ($artists as $artist) {
+        $artist = trim($artist);
+        $artist = urlencode($artist);
+        $fetch_url = $fetch_url.'artists[]='.$artist.'&';
+    }
+    
+    $fetch_url = $fetch_url.'location='.urlencode($city).','.$state.'&radius='.$radius.ID_QUERY_STR.DEFAULT_ID_STR;
+    
+    $raw_json = file_get_contents($fetch_url);
+    $events = json_decode($raw_json, true);
+    
+    echo list_events_code($events, $txt, true);
+}
+
+/*echo 'Get your Bronze Radio Return ';
+get_ticket_url("Bronze Radio Return", "2015-10-29", "tickets", "http://www.google.com");
+echo ' before they sell out!';
+echo '</br>';
+get_ticket_url("Bronze Radio Return", "2015-10-29");
+events_by_venue("Tabernacle", 5);
+get_ticket_list("Bronze Radio Return", "2015-10-29", "Buy Tix");
+events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150);*/
 ?>
