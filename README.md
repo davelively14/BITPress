@@ -1,7 +1,7 @@
 # BITPress
 This is a Template Tag plugin for WordPress that will connect with BandsInTown (BIT) API.
 
-Current Version: 0.2
+Current Version: 0.3
 
 <h2>get_ticket_url</h2>
 
@@ -106,18 +106,10 @@ Input:
 - <?php events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150); ?>
 - [insert_php]events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150);[/insert_php]
 
-Output:
-Artist                          Date                    Venue                                   Tickets
-Drew Holcomb & The Neighbors	08/27/2015 at 7:00PM	Peace Center (Greenville)               Buy Tickets
-Drew Holcomb & The Neighbors	08/28/2015 at 7:00PM	Cottonseed Studios (Opelika)            Buy Tickets
-Of Monsters and Men             10/07/2015 at 7:30PM	Ryman Auditorium (Nashville)            Buy Tickets
-Of Monsters and Men             10/09/2015 at 8:00PM	Chastain Park Amphitheatre (Atlanta)	Buy Tickets
-Bronze Radio Return             10/23/2015 at 7:00PM	The Camp House (Chattanooga)            Buy Tickets
-Bronze Radio Return             10/24/2015 at 6:00PM	Deep Roots Festival (Milledgeville)	Buy Tickets
-Bronze Radio Return             10/29/2015 at 8:30PM	Vinyl (Atlanta)                         Buy Tickets
-Bronze Radio Return             11/01/2015 at 7:00PM	The Grey Eagle (Asheville)              Buy Tickets
-Drew Holcomb & The Neighbors	11/12/2015 at 7:00PM	Track 29 (Chattanooga)                  Buy Tickets
-Drew Holcomb & The Neighbors	11/14/2015 at 7:00PM	Buckhead Theatre (Atlanta)              Buy Tickets
+<code>
+
+<table><tr><th>Artist</th><th>Date</th><th>Venue</th><th>Tickets</th></tr><tr><td>Drew Holcomb & The Neighbors</td><td>08/27/2015 at 7:00PM</td><td>Peace Center (Greenville)</td><td><a href="http://www.bandsintown.com/event/9858186?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>08/28/2015 at 7:00PM</td><td>Cottonseed Studios (Opelika)</td><td><a href="http://www.bandsintown.com/event/9911991?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Of Monsters and Men</td><td>10/07/2015 at 7:30PM</td><td>Ryman Auditorium (Nashville)</td><td><a href="http://www.bandsintown.com/event/9953381?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Of Monsters and Men</td><td>10/09/2015 at 8:00PM</td><td>Chastain Park Amphitheatre (Atlanta)</td><td><a href="http://www.bandsintown.com/event/10223003?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>10/23/2015 at 7:00PM</td><td>The Camp House (Chattanooga)</td><td><a href="http://www.bandsintown.com/event/10341856?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>10/24/2015 at 6:00PM</td><td>Deep Roots Festival (Milledgeville)</td><td><a href="http://www.bandsintown.com/event/10197971?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>10/29/2015 at 8:30PM</td><td>Vinyl (Atlanta)</td><td><a href="http://www.bandsintown.com/event/10341860?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>11/01/2015 at 7:00PM</td><td>The Grey Eagle (Asheville)</td><td><a href="http://www.bandsintown.com/event/10341863?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>11/12/2015 at 7:00PM</td><td>Track 29 (Chattanooga)</td><td><a href="http://www.bandsintown.com/event/9845755?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>11/14/2015 at 7:00PM</td><td>Buckhead Theatre (Atlanta)</td><td><a href="http://www.bandsintown.com/event/9904552?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>12/23/2015 at 7:30PM</td><td>Schermerhorn Symphony Center (Nashville)</td><td><a href="http://www.bandsintown.com/event/10482121?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr></table>
+</code>
 
 <h2>Version Changes</h2>
 
