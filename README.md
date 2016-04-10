@@ -89,7 +89,28 @@ Input:
 
 ## events_rec
 
-Returns a table of recommended upcoming events for a specific location. The recommendation is 
+Returns a table of recommended upcoming events for a specific location. The recommendation is based on a comma delimited list of artists.
+
+<?php events_rec($artists, $txt, $radius, $city, $state); ?>
+or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
+[insert_php]events_rec($artists, $txt, $city, $state, $radius);[/insert_php]
+
+- $artists: string. Enter one or more artists names, separated by a comma. Examples: 'Poison,Of Monsters and Men, imagine dragons'
+- $txt: string (optional). This is the text to be displayed within the hyperlinked portion of the href.  Default is 'Buy on BandsInTown'. Example: 'tickets' or 'buy tickets'
+- $radius: integer (optional). Radius in miles from location for search. Max 150. Default is 25. Example: 75
+- $city: string (optional). City to center the search. Default is Atlanta. Example: 'Grand Rapids' or 'Charlotte'
+- $state: string (optional). Two letter state code. Default is 'GA'. Example: 'IA' or 'NC'
+
+### Examples:
+
+Input:
+- <?php events_rec('Of Monsters and Men, Bronze Radio Return, Drew Holcomb'); ?>
+- [insert_php]events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb');[/insert_php]
+
+Output:
+<code>
+<table><tr><th>Artist</th><th>Date</th><th>Venue</th><th>Tickets</th></tr><tr><td>Mumford and Sons</td><td>04/11/2016 at 7:30PM</td><td>Infinite Energy Aren a (Duluth)</td><td><a href="http://www.bandsintown.com/event/10879142?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Mumford and So ns</td><td>04/12/2016 at 7:30PM</td><td>Infinite Energy Arena (Duluth)</td><td><a href="http://www.bandsintown.com/event/10909141?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>05/14/2016 at 7:00PM</td><td>Centennial Olympic Park (Atlanta)</td><td><a href="http://www.bandsintown.com/event/11199171?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Royal Teeth</td><td>05/22/2016 at 7 :00PM</td><td>The Masquerade (Atlanta)</td><td><a href="http://www.bandsintown.com/event/11528654?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td ></tr><tr><td>Air Traffic Controller</td><td>05/27/2016 at 7:00PM</td><td>Private House Concert (Atlanta)</td><td><a href="http://www.bandsintown.com/event/ 11779993?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Air Traffic Controller</td><td>05/29/2016 at 7:00PM</td><td>Sunset Sessions at  Piedmont Park (Atlanta)</td><td><a href="http://www.bandsintown.com/event/11759834?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr></table>
+</code>
 
 ## Version Changes
 
