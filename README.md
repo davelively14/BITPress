@@ -3,7 +3,7 @@ This is a Template Tag plugin for WordPress that will connect with BandsInTown (
 
 Current Version: 0.4
 
-<h2>get_ticket_url</h2>
+## get_ticket_url
 
 Insert the following on your page to generate a link to purchase tickets using your app_id where you want the href to appear:
 
@@ -14,7 +14,7 @@ Insert the following on your page to generate a link to purchase tickets using y
 - $txt: string (optional). This is the text to be displayed within the hyperlinked portion of the href.  Example: 'tickets' or 'buy tickets'.
 - $alt_url: string (optional). In the event that tickets are unavailable, this URL will be used for the href.  Example: 'http://www.seatgeek.com/george+ezra/buy_tickets?AAz284TR'
 
-<h4>Examples:</h4>
+#### Examples:
 Input:
 - <?php get_ticket_url("Bronze Radio Return", "2015-10-29", "buy tickets", "http://www.google.com"); ?>
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
@@ -39,7 +39,7 @@ Output:
 
 NOTE: you can change the text in the output by adjusting the default Content constants.
 
-<h2>get_tickets_list</h2>
+## get_tickets_list
 
 Similar to get_ticket_url, but returns the ticket link, date and venue information in table form for a given event:
 
@@ -51,7 +51,7 @@ or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugi
 - $date: string. Date of the event in YYYY-MM-DD format in quotes.  Example: '2015-08-20'
 - $alt_url: string (optional). In the event that tickets are unavailable, this URL will be used for the href.  Example: 'http://www.seatgeek.com/george+ezra/buy_tickets?AAz284TR'
 
-<h4>Examples:</h4>
+#### Examples:
 Input:
 - <?php get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com"); ?>
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
@@ -63,7 +63,7 @@ Bronze Radio Return
 Venue	Date                    Tickets
 Vinyl	10/29/2015 at 8:30PM	Buy on BandsInTown
 
-<h2>events_by_artist</h2>
+## events_by_artist
 
 Returns a list of upcoming events for one or more artists for a given area.
 
@@ -77,7 +77,7 @@ or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugi
 - $city: string (optional). City to center the search. Default is Atlanta. Example: 'Grand Rapids' or 'Charlotte'
 - $state: string (optional). Two letter state code. Default is 'GA'. Example: 'IA' or 'NC'
 
-<h4>Examples</h4>
+### Examples:
 Input:
 - <?php events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150); ?>
 - [insert_php]events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150);[/insert_php]

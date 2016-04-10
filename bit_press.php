@@ -257,6 +257,4 @@ get_ticket_url("Bronze Radio Return", "2015-10-29");
 get_ticket_list("Bronze Radio Return", "2015-10-29", "Buy Tix");
 events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150);*/
 
-events_rec('Young the Giant, Lumineers');
-
 ?>
