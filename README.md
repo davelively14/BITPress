@@ -89,7 +89,7 @@ Input:
 
 ## events_rec
 
-Notes
+Returns a table of recommended upcoming events for a specific location. The recommendation is 
 
 ## Version Changes
 

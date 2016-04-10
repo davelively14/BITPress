@@ -213,7 +213,7 @@ function list_events_code($events, $txt, $venues = false) {
 //
 // }
 
-function events_rec($artists, $txt = BUY_TICKET_STR, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR, $radius = DEFAULT_RADIUS_INT) {
+function events_recommended($artists, $txt = BUY_TICKET_STR, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR, $radius = DEFAULT_RADIUS_INT) {
   $artists = explode(',', $artists);
 
   $fetch_url = URL_EVENTS_STR.'recommended?';
