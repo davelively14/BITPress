@@ -213,7 +213,7 @@ function list_events_code($events, $txt, $venues = false) {
 //
 // }
 
-function events_rec($artists, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR, $radius = DEFAULT_RADIUS_INT) {
+function events_rec($artists, $txt = BUY_TICKET_STR, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR, $radius = DEFAULT_RADIUS_INT) {
   $artists = explode(',', $artists);
 
   $fetch_url = URL_EVENTS_STR.'recommended?';
@@ -226,8 +226,7 @@ function events_rec($artists, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_S
   $raw_json = file_get_contents($fetch_url);
   $events = json_decode($raw_json, true);
 
-  echo list_events_code($events, BUY_TICKET_STR, true);
-
+  echo list_events_code($events, $txt, true);
 }
 
 function events_by_artist($artists, $txt = BUY_TICKET_STR, $radius = DEFAULT_RADIUS_INT, $city = DEFAULT_CITY_STR, $state = DEFAULT_STATE_STR) {
@@ -256,5 +255,7 @@ echo '</br>';
 get_ticket_url("Bronze Radio Return", "2015-10-29");
 get_ticket_list("Bronze Radio Return", "2015-10-29", "Buy Tix");
 events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150);*/
+
+// events_rec('Lumineers, the lone bellow');
 
 ?>
