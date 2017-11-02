@@ -7,7 +7,11 @@ Current Version: 0.4
 
 Insert the following on your page to generate a link to purchase tickets using your app_id where you want the href to appear:
 
-<?php get_ticket_url($band, $date, $txt, $alt_url); ?>
+```php
+<?php
+  get_ticket_url($band, $date, $txt, $alt_url);
+?>
+```
 
 - $band: string. Name of the band in quotes (single or double).  Examples: 'Creed' or 'Foo Fighters'
 - $date: string. Date of the event in YYYY-MM-DD format in quotes.  Example: '2015-08-20'
@@ -16,9 +20,24 @@ Insert the following on your page to generate a link to purchase tickets using y
 
 #### Examples:
 Input:
-- <?php get_ticket_url("Bronze Radio Return", "2015-10-29", "buy tickets", "http://www.google.com"); ?>
+```php
+<?php
+  get_ticket_url("Bronze Radio Return",
+                 "2015-10-29",
+                 "buy tickets",
+                 "http://www.google.com");
+?>
+```
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
-- [insert_php]get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com");[/insert_php]
+```
+[insert_php]
+  get_ticket_url("Bronze Radio Return",
+                 "2015-10-29",
+                 "buy tickets",
+                 "http://www.google.com");
+[/insert_php]
+
+```
 
 Output:
 - If tickets are available:
@@ -27,9 +46,19 @@ Output:
  - Sold out! <a href="http://www.google.com">Check SeatGeek</a></br>
 
 Input:
-- <?php get_ticket_url("Bronze Radio Return", "2015-10-29"); ?>
+```php
+<?php
+  get_ticket_url("Bronze Radio Return",
+                 "2015-10-29");
+?>
+```
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
-- [insert_php]get_ticket_url("Bronze Radio Return", "2015-10-29");[/insert_php]
+```
+[insert_php]
+  get_ticket_url("Bronze Radio Return",
+                 "2015-10-29");
+[/insert_php]
+```
 
 Output:
 - If tickets are available:
@@ -43,9 +72,15 @@ NOTE: you can change the text in the output by adjusting the default Content con
 
 Similar to get_ticket_url, but returns the ticket link, date and venue information in table form for a given event:
 
+```php
 <?php get_ticket_list($band, $date, $alt_url);?>
+```
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
-[insert_php]php get_ticket_list($band, $date, $alt_url);[/insert_php]
+```
+[insert_php]
+  php get_ticket_list($band, $date, $alt_url);
+[/insert_php]
+```
 
 - $band: string. Name of the band in quotes (single or double).  Examples: 'Creed' or 'Foo Fighters'
 - $date: string. Date of the event in YYYY-MM-DD format in quotes.  Example: '2015-08-20'
@@ -53,9 +88,22 @@ or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugi
 
 #### Examples:
 Input:
-- <?php get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com"); ?>
+
+```php
+<?php
+  get_ticket_url("Bronze Radio Return",
+                 "2015-10-29",
+                 "http://www.google.com");
+?>
+```
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
-- [insert_php]get_ticket_url("Bronze Radio Return", "2015-10-29", "http://www.google.com");[/insert_php]
+```
+[insert_php]
+  get_ticket_url("Bronze Radio Return",         
+                 "2015-10-29",
+                 "http://www.google.com");
+[/insert_php]
+```
 
 Output:
 Bronze Radio Return
@@ -67,9 +115,17 @@ Vinyl	10/29/2015 at 8:30PM	Buy on BandsInTown
 
 Returns a list of upcoming events for one or more artists for a given area.
 
-<?php events_by_artist($artists, $txt, $radius, $city, $state); ?>
+```php
+<?php
+  events_by_artist($artists, $txt, $radius, $city, $state);
+?>
+```
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
-[insert_php]events_by_artist($artists, $txt, $city, $state, $radius);[/insert_php]
+```
+[insert_php]
+  events_by_artist($artists, $txt, $city, $state, $radius);
+[/insert_php]
+```
 
 - $artists: string or array of strings. Enter one or more artists names, separated by a comma. Examples: 'Poison,Of Monsters and Men, imagine dragons'
 - $txt: string (optional). This is the text to be displayed within the hyperlinked portion of the href.  Example: 'tickets' or 'buy tickets'
@@ -79,21 +135,43 @@ or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugi
 
 ### Examples:
 Input:
-- <?php events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150); ?>
-- [insert_php]events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb', 'Buy Tickets', 150);[/insert_php]
-
-<code>
+```php
+<?php
+  events_by_artist(
+    'Of Monsters and Men, Bronze Radio Return, Drew Holcomb',
+    'Buy Tickets',
+    150
+  );
+?>
+```
+or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
+```
+[insert_php]
+  events_by_artist(
+    'Of Monsters and Men, Bronze Radio Return, Drew Holcomb',
+    'Buy Tickets',
+    150
+  );
+[/insert_php]
+```
 
 <table><tr><th>Artist</th><th>Date</th><th>Venue</th><th>Tickets</th></tr><tr><td>Drew Holcomb & The Neighbors</td><td>08/27/2015 at 7:00PM</td><td>Peace Center (Greenville)</td><td><a href="http://www.bandsintown.com/event/9858186?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>08/28/2015 at 7:00PM</td><td>Cottonseed Studios (Opelika)</td><td><a href="http://www.bandsintown.com/event/9911991?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Of Monsters and Men</td><td>10/07/2015 at 7:30PM</td><td>Ryman Auditorium (Nashville)</td><td><a href="http://www.bandsintown.com/event/9953381?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Of Monsters and Men</td><td>10/09/2015 at 8:00PM</td><td>Chastain Park Amphitheatre (Atlanta)</td><td><a href="http://www.bandsintown.com/event/10223003?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>10/23/2015 at 7:00PM</td><td>The Camp House (Chattanooga)</td><td><a href="http://www.bandsintown.com/event/10341856?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>10/24/2015 at 6:00PM</td><td>Deep Roots Festival (Milledgeville)</td><td><a href="http://www.bandsintown.com/event/10197971?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>10/29/2015 at 8:30PM</td><td>Vinyl (Atlanta)</td><td><a href="http://www.bandsintown.com/event/10341860?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Bronze Radio Return</td><td>11/01/2015 at 7:00PM</td><td>The Grey Eagle (Asheville)</td><td><a href="http://www.bandsintown.com/event/10341863?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>11/12/2015 at 7:00PM</td><td>Track 29 (Chattanooga)</td><td><a href="http://www.bandsintown.com/event/9845755?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>11/14/2015 at 7:00PM</td><td>Buckhead Theatre (Atlanta)</td><td><a href="http://www.bandsintown.com/event/9904552?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>12/23/2015 at 7:30PM</td><td>Schermerhorn Symphony Center (Nashville)</td><td><a href="http://www.bandsintown.com/event/10482121?app_id=LOVE_ATL" rel="nofollow">Buy Tickets</a></td></tr></table>
-</code>
 
 ## events_rec
 
 Returns a table of recommended upcoming events for a specific location. The recommendation is based on a comma delimited list of artists.
 
-<?php events_rec($artists, $txt, $radius, $city, $state); ?>
+```php
+<?php
+  events_rec($artists, $txt, $radius, $city, $state);
+?>
+```
 or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
-[insert_php]events_rec($artists, $txt, $city, $state, $radius);[/insert_php]
+```
+[insert_php]
+  events_rec($artists, $txt, $city, $state, $radius);
+[/insert_php]
+```
 
 - $artists: string. Enter one or more artists names, separated by a comma. Examples: 'Poison,Of Monsters and Men, imagine dragons'
 - $txt: string (optional). This is the text to be displayed within the hyperlinked portion of the href.  Default is 'Buy on BandsInTown'. Example: 'tickets' or 'buy tickets'
@@ -104,13 +182,24 @@ or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugi
 ### Examples:
 
 Input:
-- <?php events_rec('Of Monsters and Men, Bronze Radio Return, Drew Holcomb'); ?>
-- [insert_php]events_by_artist('Of Monsters and Men, Bronze Radio Return, Drew Holcomb');[/insert_php]
+```php
+<?php
+  events_rec(
+    'Of Monsters and Men, Bronze Radio Return, Drew Holcomb'
+  );
+?>
+```
+or with <a href="https://wordpress.org/plugins/insert-php/">Insert PHP</a> plugin:
+```
+[insert_php]
+  events_by_artist(
+    'Of Monsters and Men, Bronze Radio Return, Drew Holcomb'
+  );
+[/insert_php]
+```
 
 Output:
-<code>
 <table><tr><th>Artist</th><th>Date</th><th>Venue</th><th>Tickets</th></tr><tr><td>Mumford and Sons</td><td>04/11/2016 at 7:30PM</td><td>Infinite Energy Aren a (Duluth)</td><td><a href="http://www.bandsintown.com/event/10879142?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Mumford and So ns</td><td>04/12/2016 at 7:30PM</td><td>Infinite Energy Arena (Duluth)</td><td><a href="http://www.bandsintown.com/event/10909141?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Drew Holcomb & The Neighbors</td><td>05/14/2016 at 7:00PM</td><td>Centennial Olympic Park (Atlanta)</td><td><a href="http://www.bandsintown.com/event/11199171?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Royal Teeth</td><td>05/22/2016 at 7 :00PM</td><td>The Masquerade (Atlanta)</td><td><a href="http://www.bandsintown.com/event/11528654?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td ></tr><tr><td>Air Traffic Controller</td><td>05/27/2016 at 7:00PM</td><td>Private House Concert (Atlanta)</td><td><a href="http://www.bandsintown.com/event/ 11779993?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr><tr><td>Air Traffic Controller</td><td>05/29/2016 at 7:00PM</td><td>Sunset Sessions at  Piedmont Park (Atlanta)</td><td><a href="http://www.bandsintown.com/event/11759834?app_id=LOVE_ATL" rel="nofollow">Buy on BandsInTown</a></td></tr></table>
-</code>
 
 ## Version Changes
 
